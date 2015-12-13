@@ -11,25 +11,38 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Threading;
+using System.Reflection;
 
 namespace ShutdownTimer
 {
 
-    
     public partial class Form1 : Form
     {
+
+        bool minimizedToTray;
 
         int delay = 0;
         bool shutdown = false;
 
         public Time setTime = new Time(99, 99, "AM");                //make setTime usable in multiple scopes
 
-        
+        private ContextMenu trayMenu;
+
         public Form1()
         {
             InitializeComponent();
+            this.Text = "ShutdownTimer";
         }
 
+        protected override void WndProc(ref Message message)
+        {
+            if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
+            {
+                ShowWindow();
+            }
+            base.WndProc(ref message);
+        }
 
                                             //button used to set the time
         private void btnSetTime_MouseClick(object sender, MouseEventArgs e)
@@ -109,6 +122,7 @@ namespace ShutdownTimer
                     string initToD = bits[2];
                     setTime = new Time(initHour, initMinute, initToD);
                     lblShutdownTime.Text = "Shutdown time: " + setTime.ToString();
+                    sr.Close();
                 }
             }
             catch (Exception error)
@@ -120,6 +134,12 @@ namespace ShutdownTimer
             //match check boxes with Application Settings
             chBoxRS.Checked = Properties.Settings.Default.startUp;
             chBoxAD.Checked = Properties.Settings.Default.delay;
+
+            //tray menu
+            trayMenu = new ContextMenu();
+            trayMenu.MenuItems.Add("Settings", Settings);
+            trayMenu.MenuItems.Add("Exit", OnExit);
+            notifyIcon.ContextMenu = trayMenu;
         }
 
         /**
@@ -198,19 +218,145 @@ namespace ShutdownTimer
         {
             if (FormWindowState.Minimized == this.WindowState)
             {
-                notifyIcon.Visible = true;
-                notifyIcon.ShowBalloonTip(500);
-                this.Hide();
+                MinimizeToTray();
             }
             else if (FormWindowState.Normal == this.WindowState)
             {
-                notifyIcon.Visible = false;
+                ShowWindow();
             }
         }
 
-        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        private void Settings(object sender, EventArgs e)
         {
-            
+            ShowWindow();
+        }
+
+        void MinimizeToTray()
+        {   
+            notifyIcon.DoubleClick += new EventHandler(NotifyIconClick);
+            notifyIcon.Visible = true;
+            notifyIcon.ShowBalloonTip(500);
+            this.WindowState = FormWindowState.Minimized;
+            this.Hide();
+            minimizedToTray = true;
+        }
+
+        public void ShowWindow()
+        {
+            if (minimizedToTray)
+            {
+                notifyIcon.Visible = false;
+                this.Show();
+                this.WindowState = FormWindowState.Normal;
+                minimizedToTray = false;
+            }
+            else
+            {
+                WinApi.ShowToFront(this.Handle);
+            }
+        }
+
+        void NotifyIconClick(Object sender, System.EventArgs e)
+        {
+            ShowWindow();
+        }
+
+        private void OnExit(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+    }
+
+    static public class SingleInstance
+    {
+        public static readonly int WM_SHOWFIRSTINSTANCE =
+            WinApi.RegisterWindowMessage("WM_SHOWFIRSTINSTANCE|{0}", ProgramInfo.AssemblyGuid);
+        static Mutex mutex;
+        static public bool Start()
+        {
+            bool onlyInstance = false;
+            string mutexName = String.Format("Local\\{0}", ProgramInfo.AssemblyGuid);
+
+            // if you want your app to be limited to a single instance
+            // across ALL SESSIONS (multiple users & terminal services), then use the following line instead:
+            // string mutexName = String.Format("Global\\{0}", ProgramInfo.AssemblyGuid);
+
+            mutex = new Mutex(true, mutexName, out onlyInstance);
+            return onlyInstance;
+        }
+        static public void ShowFirstInstance()
+        {
+            WinApi.PostMessage(
+                (IntPtr)WinApi.HWND_BROADCAST,
+                WM_SHOWFIRSTINSTANCE,
+                IntPtr.Zero,
+                IntPtr.Zero);
+        }
+        static public void Stop()
+        {
+            mutex.ReleaseMutex();
+        }
+    }
+
+    static public class WinApi
+    {
+        [DllImport("user32")]
+        public static extern int RegisterWindowMessage(string message);
+
+        public static int RegisterWindowMessage(string format, params object[] args)
+        {
+            string message = String.Format(format, args);
+            return RegisterWindowMessage(message);
+        }
+
+        public const int HWND_BROADCAST = 0xffff;
+        public const int SW_SHOWNORMAL = 1;
+
+        [DllImport("user32")]
+        public static extern bool PostMessage(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam);
+
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImportAttribute("user32.dll")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        public static void ShowToFront(IntPtr window)
+        {
+            ShowWindow(window, SW_SHOWNORMAL);
+            SetForegroundWindow(window);
+        }
+    }
+
+    static public class ProgramInfo
+    {
+        static public string AssemblyGuid
+        {
+            get
+            {
+                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(System.Runtime.InteropServices.GuidAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return String.Empty;
+                }
+                return ((System.Runtime.InteropServices.GuidAttribute)attributes[0]).Value;
+            }
+        }
+        static public string AssemblyTitle
+        {
+            get
+            {
+                object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                if (attributes.Length > 0)
+                {
+                    AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
+                    if (titleAttribute.Title != "")
+                    {
+                        return titleAttribute.Title;
+                    }
+                }
+                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().CodeBase);
+            }
         }
     }
 }

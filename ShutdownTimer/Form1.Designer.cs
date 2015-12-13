@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lblShutdownTime = new System.Windows.Forms.Label();
             this.txtHour = new System.Windows.Forms.TextBox();
             this.txtMin = new System.Windows.Forms.TextBox();
@@ -159,10 +160,10 @@
             // notifyIcon
             // 
             this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon.BalloonTipText = "Click to change settings";
+            this.notifyIcon.BalloonTipText = "Minimized to System Tray";
             this.notifyIcon.BalloonTipTitle = "Shutdown Timer";
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "Shutdown Timer";
-            this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
             // 
             // Form1
             // 

@@ -34,7 +34,7 @@ namespace ShutdownTimer
             return ToD;
         }
 
-        public String ToString()
+        public override String ToString()
         {
             return this.getHour().ToString("00") + ":" + this.getMinute().ToString("00") + " " + this.getToD();
         }
