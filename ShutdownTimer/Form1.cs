@@ -19,6 +19,19 @@ namespace ShutdownTimer
 
     public partial class Form1 : Form
     {
+        [StructLayout(LayoutKind.Sequential)]
+        struct LASTINPUTINFO
+        {
+            public static readonly int SizeOf = Marshal.SizeOf(typeof(LASTINPUTINFO));
+
+            [MarshalAs(UnmanagedType.U4)]
+            public UInt32 cbSize;
+            [MarshalAs(UnmanagedType.U4)]
+            public UInt32 dwTime;
+        }
+
+        [DllImport("user32.dll")]
+        static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
 
         bool minimizedToTray;
 
@@ -147,6 +160,14 @@ namespace ShutdownTimer
          * */
         private void timer_Tick(object sender, EventArgs e)
         {
+            if (GetLastInputTime() < 1001)
+            {
+                if (chBoxAD.Checked)
+                {
+                    delay = 900;
+                }
+            }
+
             if (delay > 0)
             delay -= 1;                     //decrement delay
             lblCD.Text = "Current Delay: " + delay;
@@ -164,6 +185,25 @@ namespace ShutdownTimer
             {
                 Process.Start("shutdown", "/s /t 0");
             }
+        }
+
+        static uint GetLastInputTime()
+        {
+            uint idleTime = 0;
+            LASTINPUTINFO lastInputInfo = new LASTINPUTINFO();
+            lastInputInfo.cbSize = (uint)Marshal.SizeOf(lastInputInfo);
+            lastInputInfo.dwTime = 0;
+
+            uint envTicks = (uint)Environment.TickCount; //this is the time since the system started
+
+            if (GetLastInputInfo(ref lastInputInfo))
+            {
+                uint lastInputTick = lastInputInfo.dwTime; //this is the time that last input was received
+
+                idleTime = envTicks - lastInputTick; //this is the time the system has been idle
+            }
+
+            return idleTime;
         }
 
         /**
@@ -190,10 +230,7 @@ namespace ShutdownTimer
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (chBoxAD.Checked)
-            {
-                delay = 900;
-            }
+            
         }
 
         /**
