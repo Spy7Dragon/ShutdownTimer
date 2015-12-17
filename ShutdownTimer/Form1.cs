@@ -183,7 +183,7 @@ namespace ShutdownTimer
 
             if (delay < 1 && shutdown)
             {
-                Process.Start("shutdown", "/s /t 0");
+                Process.Start("shutdown.exe", "-s -f -t 0");
             }
         }
 
