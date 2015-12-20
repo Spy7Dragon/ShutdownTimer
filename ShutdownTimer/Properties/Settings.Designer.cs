@@ -46,5 +46,17 @@ namespace ShutdownTimer.Properties {
                 this["delay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public string delayTime {
+            get {
+                return ((string)(this["delayTime"]));
+            }
+            set {
+                this["delayTime"] = value;
+            }
+        }
     }
 }

@@ -45,7 +45,6 @@ namespace ShutdownTimer
         public Form1()
         {
             InitializeComponent();
-            this.Text = "ShutdownTimer";
         }
 
         protected override void WndProc(ref Message message)
@@ -118,9 +117,10 @@ namespace ShutdownTimer
                                             //form load actions
         private void Form1_Load(object sender, EventArgs e)
         {
+            comDelay.SelectedIndex = 2;
             comToD.SelectedIndex = 0;        //make AM selected
                                              //display current time
-            lblCurrentTime.Text = "Current Time:    " + DateTime.Now.ToString("hh:mm tt");
+            lblCurrentTime.Text = "Current Time: " + DateTime.Now.ToString("hh:mm tt");
            
             //load previous settings from text file
             try
@@ -147,7 +147,7 @@ namespace ShutdownTimer
             //match check boxes with Application Settings
             chBoxRS.Checked = Properties.Settings.Default.startUp;
             chBoxAD.Checked = Properties.Settings.Default.delay;
-
+            comDelay.Text = Properties.Settings.Default.delayTime;
             //tray menu
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("Settings", Settings);
@@ -160,19 +160,26 @@ namespace ShutdownTimer
          * */
         private void timer_Tick(object sender, EventArgs e)
         {
+            if (delay > 0)
+            delay -= 1;                     //decrement delay
+
             if (GetLastInputTime() < 1001)
             {
                 if (chBoxAD.Checked)
                 {
-                    delay = 900;
+                    if (Int32.TryParse(comDelay.Text, out delay))
+                    {
+                        delay = Int32.Parse(comDelay.Text) * 60;
+                    }
+                    else{
+                        delay = 900;
+                    }
                 }
             }
-
-            if (delay > 0)
-            delay -= 1;                     //decrement delay
-            lblCD.Text = "Current Delay: " + delay;
+           
+            lblCD.Text = "Current Delay: " + delay + " secs";
                                             //display current time
-            lblCurrentTime.Text = "Current Time:    " + DateTime.Now.ToString("hh:mm tt");
+            lblCurrentTime.Text = "Current Time: " + DateTime.Now.ToString("hh:mm tt");
                                             //if shutdown time then shutdown
             if (setTime.getHour().ToString("00") == DateTime.Now.ToString("hh")
                 && setTime.getMinute().ToString("00") == DateTime.Now.ToString("mm")
@@ -302,6 +309,12 @@ namespace ShutdownTimer
         {
             Application.Exit();
         }
+
+        private void comDelay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.delayTime = comDelay.Text;
+            Properties.Settings.Default.Save();
+        }
     }
 
     static public class SingleInstance
@@ -313,10 +326,6 @@ namespace ShutdownTimer
         {
             bool onlyInstance = false;
             string mutexName = String.Format("Local\\{0}", ProgramInfo.AssemblyGuid);
-
-            // if you want your app to be limited to a single instance
-            // across ALL SESSIONS (multiple users & terminal services), then use the following line instead:
-            // string mutexName = String.Format("Global\\{0}", ProgramInfo.AssemblyGuid);
 
             mutex = new Mutex(true, mutexName, out onlyInstance);
             return onlyInstance;
