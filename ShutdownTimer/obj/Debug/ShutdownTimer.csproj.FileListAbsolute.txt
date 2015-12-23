@@ -8,11 +8,14 @@ C:\Users\Branden\Documents\ODU Fall 2015\IT310\ShutdownTimer\ShutdownTimer\obj\D
 C:\Users\Branden\Documents\ODU Fall 2015\IT310\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.exe
 C:\Users\Branden\Documents\ODU Fall 2015\IT310\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.pdb
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.exe.config
-C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.exe
-C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.pdb
+C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.exe.manifest
+C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.application
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.exe
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.pdb
-C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.csprojResolveAssemblyReference.cache
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.Form1.resources
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.Properties.Resources.resources
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.csproj.GenerateResource.Cache
+C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.exe.manifest
+C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.application
+C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.exe
+C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.pdb

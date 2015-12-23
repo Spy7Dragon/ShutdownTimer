@@ -1,4 +1,11 @@
-﻿using System;
+﻿///<summary>
+///Project: Shutdown Timer
+///Author: Branden Huggins
+///Date: 12/22/2015
+///Version: 00001
+///</summary>
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,13 +21,20 @@ using System.IO;
 using System.Threading;
 using System.Reflection;
 
+///<summary>
+///ShutdownTimer: Controls when the computer will be shutdown based on time and settings
+///</summary>
 namespace ShutdownTimer
 {
 
+    /// <summary>
+    /// The main form for the program
+    /// </summary>
     public partial class Form1 : Form
     {
-        [StructLayout(LayoutKind.Sequential)]
-        struct LASTINPUTINFO
+        [StructLayout(LayoutKind.Sequential)] ///<remarks>The members of the object are laid out sequentially, in the order in which they appear when exported to unmanaged memory. The members are laid out according to the packing specified in StructLayoutAttribute.Pack, and can be noncontiguous.</remarks>
+
+        struct LASTINPUTINFO ///<summary>Describes the last input value from the system</summary>
         {
             public static readonly int SizeOf = Marshal.SizeOf(typeof(LASTINPUTINFO));
 
@@ -33,14 +47,14 @@ namespace ShutdownTimer
         [DllImport("user32.dll")]
         static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
 
-        bool minimizedToTray;
+        bool minimizedToTray;///<value>tells whether or not the program is minimized to the tray</value>
 
-        int delay = 0;
-        bool shutdown = false;
+        int delay = 0; ///<value>variable for the delay time</value>
+        bool shutdown = false; ///<value>tells whether or not the system should be shutdown</value>
 
-        public Time setTime = new Time(99, 99, "AM");                //make setTime usable in multiple scopes
+        public Time setTime = new Time(99, 99, "AM"); ///<value>make setTime usable in multiple scopes, set time is the time in which the system will start shutting down</value>
 
-        private ContextMenu trayMenu;
+        private ContextMenu trayMenu; ///<value>the tray menu</value>
 
         public Form1()
         {
@@ -56,13 +70,13 @@ namespace ShutdownTimer
             base.WndProc(ref message);
         }
 
-                                            //button used to set the time
+        //button used to set the time
         private void btnSetTime_MouseClick(object sender, MouseEventArgs e)
         {
             bool correctFields = true;      //initialize checker for valid input
             int theHour = 0;                //initialize hour
 
-                                            //validate hour
+            //validate hour
             if (Int32.TryParse(txtHour.Text, out theHour))
             {
                 if (theHour < 1 || theHour > 12)
@@ -79,7 +93,7 @@ namespace ShutdownTimer
 
             int theMinute = 0;              //initialize minute
 
-                                            //validate minute
+            //validate minute
             if (correctFields)
             {
                 if (Int32.TryParse(txtMin.Text, out theMinute))
@@ -97,11 +111,11 @@ namespace ShutdownTimer
                 }
             }
 
-            
+
             String theToD = comToD.Text;    //initialize time of day
 
-                                            //set time if fields are correct
-                                            //display time
+            //set time if fields are correct
+            //display time
             if (correctFields)
             {
                 setTime = new Time(theHour, theMinute, theToD);
@@ -114,20 +128,20 @@ namespace ShutdownTimer
 
         }
 
-                                            //form load actions
+        //form load actions
         private void Form1_Load(object sender, EventArgs e)
         {
             comDelay.SelectedIndex = 2;
             comToD.SelectedIndex = 0;        //make AM selected
-                                             //display current time
+            //display current time
             lblCurrentTime.Text = "Current Time: " + DateTime.Now.ToString("hh:mm tt");
-           
+
             //load previous settings from text file
             try
             {
                 using (TextReader sr = File.OpenText("settings.txt"))
                 {
-                    char[] delimeterChars = {' ', ':'};
+                    char[] delimeterChars = { ' ', ':' };
                     string line = sr.ReadLine();
                     string[] bits = line.Split(delimeterChars);
                     int initHour = int.Parse(bits[0]);
@@ -161,7 +175,7 @@ namespace ShutdownTimer
         private void timer_Tick(object sender, EventArgs e)
         {
             if (delay > 0)
-            delay -= 1;                     //decrement delay
+                delay -= 1;                     //decrement delay
 
             if (GetLastInputTime() < 1001)
             {
@@ -171,16 +185,17 @@ namespace ShutdownTimer
                     {
                         delay = Int32.Parse(comDelay.Text) * 60;
                     }
-                    else{
+                    else
+                    {
                         delay = 900;
                     }
                 }
             }
-           
+
             lblCD.Text = "Current Delay: " + delay + " secs";
-                                            //display current time
+            //display current time
             lblCurrentTime.Text = "Current Time: " + DateTime.Now.ToString("hh:mm tt");
-                                            //if shutdown time then shutdown
+            //if shutdown time then shutdown
             if (setTime.getHour().ToString("00") == DateTime.Now.ToString("hh")
                 && setTime.getMinute().ToString("00") == DateTime.Now.ToString("mm")
                 && setTime.getToD() == DateTime.Now.ToString("tt"))
@@ -218,26 +233,26 @@ namespace ShutdownTimer
          * */
         private void chBoxRS_CheckedChanged(object sender, EventArgs e)
         {
-             RegistryKey reg = Registry.CurrentUser.OpenSubKey
-                    ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey
+                   ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
-             if (chBoxRS.Checked)
-             {
-                 reg.SetValue("ShutdownTimer", Application.ExecutablePath.ToString());
-                 Properties.Settings.Default.startUp = true;
-                 Properties.Settings.Default.Save();
-             }
-             else
-             {
-                 Properties.Settings.Default.startUp = false;
-                 Properties.Settings.Default.Save();
-                 reg.DeleteValue("ShutdownTimer", false);
-             }   
+            if (chBoxRS.Checked)
+            {
+                reg.SetValue("ShutdownTimer", Application.ExecutablePath.ToString());
+                Properties.Settings.Default.startUp = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.startUp = false;
+                Properties.Settings.Default.Save();
+                reg.DeleteValue("ShutdownTimer", false);
+            }
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            
+
         }
 
         /**
@@ -276,7 +291,7 @@ namespace ShutdownTimer
         }
 
         void MinimizeToTray()
-        {   
+        {
             notifyIcon.DoubleClick += new EventHandler(NotifyIconClick);
             notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(500);
