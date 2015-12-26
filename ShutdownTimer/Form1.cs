@@ -61,6 +61,10 @@ namespace ShutdownTimer
             InitializeComponent();
         }
 
+        /// <summary>
+        /// shows the form if the program is already running.
+        /// </summary>
+        /// <param name="message"></param>
         protected override void WndProc(ref Message message)
         {
             if (message.Msg == SingleInstance.WM_SHOWFIRSTINSTANCE)
@@ -70,13 +74,13 @@ namespace ShutdownTimer
             base.WndProc(ref message);
         }
 
-        //button used to set the time
+        ///button used to set the time
         private void btnSetTime_MouseClick(object sender, MouseEventArgs e)
         {
             bool correctFields = true;      //initialize checker for valid input
             int theHour = 0;                //initialize hour
 
-            //validate hour
+            ///validate hour
             if (Int32.TryParse(txtHour.Text, out theHour))
             {
                 if (theHour < 1 || theHour > 12)
@@ -91,9 +95,9 @@ namespace ShutdownTimer
                 correctFields = false;
             }
 
-            int theMinute = 0;              //initialize minute
+            int theMinute = 0;              ///initialize minute
 
-            //validate minute
+            ///validate minute
             if (correctFields)
             {
                 if (Int32.TryParse(txtMin.Text, out theMinute))
@@ -112,15 +116,14 @@ namespace ShutdownTimer
             }
 
 
-            String theToD = comToD.Text;    //initialize time of day
+            String theToD = comToD.Text;    ///initialize time of day
 
-            //set time if fields are correct
-            //display time
+            ///set time if fields are correct
+            ///display time
             if (correctFields)
             {
                 setTime = new Time(theHour, theMinute, theToD);
                 lblShutdownTime.Text = "Shutdown time: " + setTime.ToString();
-                //TODO print to file settings.txt
 
                 System.IO.File.WriteAllText("settings.txt", setTime.ToString());
             }
@@ -128,15 +131,15 @@ namespace ShutdownTimer
 
         }
 
-        //form load actions
+        ///form load actions
         private void Form1_Load(object sender, EventArgs e)
         {
             comDelay.SelectedIndex = 2;
-            comToD.SelectedIndex = 0;        //make AM selected
-            //display current time
+            comToD.SelectedIndex = 0;        ///make AM selected
+            ///display current time
             lblCurrentTime.Text = "Current Time: " + DateTime.Now.ToString("hh:mm tt");
 
-            //load previous settings from text file
+            ///load previous settings from text file
             try
             {
                 using (TextReader sr = File.OpenText("settings.txt"))
@@ -149,34 +152,40 @@ namespace ShutdownTimer
                     string initToD = bits[2];
                     setTime = new Time(initHour, initMinute, initToD);
                     lblShutdownTime.Text = "Shutdown time: " + setTime.ToString();
+                    txtHour.Text = setTime.getHour().ToString("00");
+                    txtMin.Text = setTime.getMinute().ToString("00");
+                    comToD.Text = setTime.getToD();
                     sr.Close();
                 }
             }
             catch (Exception error)
             {
-                //lblShutdownTime.Text = "Unable to read saved time.";
                 Console.WriteLine(error.Message);
             }
 
-            //match check boxes with Application Settings
+            ///match check boxes with Application Settings
             chBoxRS.Checked = Properties.Settings.Default.startUp;
             chBoxAD.Checked = Properties.Settings.Default.delay;
             comDelay.Text = Properties.Settings.Default.delayTime;
-            //tray menu
+            ///tray menu
             trayMenu = new ContextMenu();
             trayMenu.MenuItems.Add("Settings", Settings);
             trayMenu.MenuItems.Add("Exit", OnExit);
             notifyIcon.ContextMenu = trayMenu;
         }
 
-        /**
-         * actions for the timer ticks
-         * */
+        
+        /// <summary>
+        /// actions for the timer ticks
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer_Tick(object sender, EventArgs e)
         {
             if (delay > 0)
-                delay -= 1;                     //decrement delay
+                delay -= 1;                     ///decrement delay
 
+            ///if moved in the last second and activity delay then set delay
             if (GetLastInputTime() < 1001)
             {
                 if (chBoxAD.Checked)
@@ -193,22 +202,28 @@ namespace ShutdownTimer
             }
 
             lblCD.Text = "Current Delay: " + delay + " secs";
-            //display current time
+            ///display current time
             lblCurrentTime.Text = "Current Time: " + DateTime.Now.ToString("hh:mm tt");
-            //if shutdown time then shutdown
+            ///if shutdown time then shutdown
             if (setTime.getHour().ToString("00") == DateTime.Now.ToString("hh")
                 && setTime.getMinute().ToString("00") == DateTime.Now.ToString("mm")
                 && setTime.getToD() == DateTime.Now.ToString("tt"))
             {
-                shutdown = true;                //set shutdown to true  
+                shutdown = true;                ///set shutdown to true  
             }
 
+            ///if delay 0 and shutdown set, then actually shutdown
             if (delay < 1 && shutdown)
             {
                 Process.Start("shutdown.exe", "-s -f -t 0");
             }
         }
 
+
+        /// <summary>
+        /// returns the time the system has been idle
+        /// </summary>
+        /// <returns></returns>
         static uint GetLastInputTime()
         {
             uint idleTime = 0;
@@ -216,21 +231,23 @@ namespace ShutdownTimer
             lastInputInfo.cbSize = (uint)Marshal.SizeOf(lastInputInfo);
             lastInputInfo.dwTime = 0;
 
-            uint envTicks = (uint)Environment.TickCount; //this is the time since the system started
+            uint envTicks = (uint)Environment.TickCount; ///this is the time since the system started
 
             if (GetLastInputInfo(ref lastInputInfo))
             {
-                uint lastInputTick = lastInputInfo.dwTime; //this is the time that last input was received
+                uint lastInputTick = lastInputInfo.dwTime; ///this is the time that last input was received
 
-                idleTime = envTicks - lastInputTick; //this is the time the system has been idle
+                idleTime = envTicks - lastInputTick; ///this is the time the system has been idle
             }
 
             return idleTime;
         }
 
-        /**
-         * actions for the run at startup check box change
-         * */
+        /// <summary>
+        /// actions for the run at startup check box change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chBoxRS_CheckedChanged(object sender, EventArgs e)
         {
             RegistryKey reg = Registry.CurrentUser.OpenSubKey
@@ -255,9 +272,11 @@ namespace ShutdownTimer
 
         }
 
-        /**
-         * actions for the delay checkbox
-         **/
+        /// <summary>
+        /// actions for the delay checkbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chBoxAD_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxAD.Checked)
@@ -273,6 +292,11 @@ namespace ShutdownTimer
             }
         }
 
+        /// <summary>
+        /// minimizing and normalize
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Resize(object sender, EventArgs e)
         {
             if (FormWindowState.Minimized == this.WindowState)
@@ -285,11 +309,19 @@ namespace ShutdownTimer
             }
         }
 
+        /// <summary>
+        /// Settings options shows the window again
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Settings(object sender, EventArgs e)
         {
             ShowWindow();
         }
 
+        /// <summary>
+        /// minimize to tray and setups the tray at the bottom
+        /// </summary>
         void MinimizeToTray()
         {
             notifyIcon.DoubleClick += new EventHandler(NotifyIconClick);
@@ -300,6 +332,9 @@ namespace ShutdownTimer
             minimizedToTray = true;
         }
 
+        /// <summary>
+        /// shows the window and gets rid of the tray
+        /// </summary>
         public void ShowWindow()
         {
             if (minimizedToTray)
@@ -315,16 +350,32 @@ namespace ShutdownTimer
             }
         }
 
+        /// <summary>
+        /// action of clicking the notify icon
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void NotifyIconClick(Object sender, System.EventArgs e)
         {
             ShowWindow();
         }
 
+
+        /// <summary>
+        /// action for exiting
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnExit(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// actions for setting the delay duration
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comDelay_SelectedIndexChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.delayTime = comDelay.Text;
@@ -332,6 +383,9 @@ namespace ShutdownTimer
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     static public class SingleInstance
     {
         public static readonly int WM_SHOWFIRSTINSTANCE =
@@ -389,6 +443,9 @@ namespace ShutdownTimer
         }
     }
 
+    /// <summary>
+    /// gets information about the program
+    /// </summary>
     static public class ProgramInfo
     {
         static public string AssemblyGuid
