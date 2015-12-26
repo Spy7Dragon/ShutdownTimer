@@ -55,6 +55,8 @@ namespace ShutdownTimer
         public Time setTime = new Time(99, 99, "AM"); ///<value>make setTime usable in multiple scopes, set time is the time in which the system will start shutting down</value>
 
         private ContextMenu trayMenu; ///<value>the tray menu</value>
+                                      ///
+        String path = "C:\\Users\\Public\\STsettings.txt";
 
         public Form1()
         {
@@ -125,7 +127,7 @@ namespace ShutdownTimer
                 setTime = new Time(theHour, theMinute, theToD);
                 lblShutdownTime.Text = "Shutdown time: " + setTime.ToString();
 
-                System.IO.File.WriteAllText("settings.txt", setTime.ToString());
+                System.IO.File.WriteAllText(path, setTime.ToString());
             }
 
 
@@ -142,7 +144,7 @@ namespace ShutdownTimer
             ///load previous settings from text file
             try
             {
-                using (TextReader sr = File.OpenText("settings.txt"))
+                using (TextReader sr = File.OpenText(path))
                 {
                     char[] delimeterChars = { ' ', ':' };
                     string line = sr.ReadLine();
