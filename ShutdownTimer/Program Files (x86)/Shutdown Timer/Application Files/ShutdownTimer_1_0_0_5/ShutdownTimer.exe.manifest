@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="ShutdownTimer.exe" version="1.0.0.5" publicKeyToken="c878eeabe10cd9c0" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="shutdown_trayicon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="ShutdownTimer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="ShutdownTimer.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ShutdownTimer.exe" size="33280">
+      <assemblyIdentity name="ShutdownTimer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>zX2hyUfPXiEM2YDbduegNZaSkloFOApwAIbQS12ErCo=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="shutdown_trayicon.ico" size="4286">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9Ek8CChnTwsEdCL18GjL3pR92fYeMGcRQ0YkzkZi4BU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="ShutdownTimer.exe.config" size="1172">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dnsQ9NJjwnnAqnVhaLa7O9WB7Z0fZ2rDRLgt+NuTg6s=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=BRANDEN\Branden" issuerKeyHash="c316230f6b2a52dfa0dbe8ce2bd853caab71a504" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>6JHa5nKdsba4PlObZH+XHy8DsiEfWSw8HqDOWN55EE0=</DigestValue></Reference></SignedInfo><SignatureValue>MoKpkRLr3ZmBMB+acb/SC4pCGl5lG2iIP0R7rrpHta1rk2rHBY3wop/2nqjkDdZRn74dF4K+Ai2UydNXuMZ+DB7D+zCkVQEjtAJyImJTmjN93Y4hl7Hq/PZTB4QO05QsC1mtZ81Te90F5ZvKcXLtobVDhLcA6Y4xFWnyQWwIMG4=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>tATsq12Iy4hhvnYVx+3TjpK7V/UF7MDIlbbaQxv5M/FMIIKGRK3VlutwoK+OzTqEZ+yNlO00TkVsDgb0B3Ofkk4ix4X0UzYWuG3yTjc/39E9rG8f7RLGS10L33Yhswq0Q716KZhC+wP89qADFlaVlK9dvTFYOO35ivIVOyhfYV0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="4d1079de58cea01e3c2c591f21b2032f1f977f649b533eb8b6b19d72e6da91e8" Description="" Url=""><as:assemblyIdentity name="ShutdownTimer.exe" version="1.0.0.5" publicKeyToken="c878eeabe10cd9c0" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=BRANDEN\Branden</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>MskZPrSLwk0IcP2dU0GLaGGQIJtmwKQl3k5i6e0PZlQ=</DigestValue></Reference></SignedInfo><SignatureValue>kRZxV+xuI9q9y95YishwPhM2GcZ6aIHMqtxhFX3xxImA41OQ9wpWYSGcPlbmjhbQntohcGvOzrjvJqJFy3DRVH3sz4nZq8DcL3JE07iFgg8LMgQhnACaOftUAYV9O8qDP/puWGAEDWAoA3qma/+KdfxW+JVRbrBecuMUZMQvBuo=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>tATsq12Iy4hhvnYVx+3TjpK7V/UF7MDIlbbaQxv5M/FMIIKGRK3VlutwoK+OzTqEZ+yNlO00TkVsDgb0B3Ofkk4ix4X0UzYWuG3yTjc/39E9rG8f7RLGS10L33Yhswq0Q716KZhC+wP89qADFlaVlK9dvTFYOO35ivIVOyhfYV0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB1TCCAT6gAwIBAgIQZM5e7CQ0Xb1Cngh3lBQ2OzANBgkqhkiG9w0BAQsFADApMScwJQYDVQQDHh4AQgBSAEEATgBEAEUATgBcAEIAcgBhAG4AZABlAG4wHhcNMTUxMjIzMDIyMTM3WhcNMTYxMjIyMDgyMTM3WjApMScwJQYDVQQDHh4AQgBSAEEATgBEAEUATgBcAEIAcgBhAG4AZABlAG4wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALQE7KtdiMuIYb52Fcft046Su1f1BezAyJW22kMb+TPxTCCChkSt1ZbrcKCvjs06hGfsjZTtNE5FbA4G9Adzn5JOIseF9FM2Frht8k43P9/RPaxvH+0SxktdC992IbMKtEO9eimYQvsD/PagAxZWlZSvXb0xWDjt+YryFTsoX2FdAgMBAAEwDQYJKoZIhvcNAQELBQADgYEAmP4KOwkRuRV1hO7+wpEeikCtZA7TqY+QEZVveAJXp3bXN9YkqMcfY3IZHyMYfaODfkisLPXMFCP2b4IW6U8SLWWl0smpE6U4BdTZ1ZDgBvxKtwSbUNlqPKeKtK59eMZcIPv10lnH3ahM0CARhrkXCiYX3GUy0AE5t5blbdM7JCw=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
