@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace ShutdownTimer
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
 
             if (!SingleInstance.Start())
@@ -28,8 +22,8 @@ namespace ShutdownTimer
 
             try
             {
-                Form1 mainForm = new Form1();
-                Application.Run(mainForm);
+                Form1 main_form = new Form1();
+                Application.Run(main_form);
             }
             catch (Exception e)
             {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShutdownTimer
 {
@@ -14,33 +10,33 @@ namespace ShutdownTimer
 
         public Time(int theHour, int theMinute, string theToD)
         {
-            hour = theHour;
-            minute = theMinute;
-            ToD = theToD;
+            m_hour = theHour;
+            m_minute = theMinute;
+            m_to_d = theToD;
         }
 
-        public int getHour()
+        public int GetHour()
         {
-            return hour;
+            return m_hour;
         }
 
-        public int getMinute()
+        public int GetMinute()
         {
-            return minute;
+            return m_minute;
         }
 
-        public String getToD()
+        public string GetToD()
         {
-            return ToD;
+            return m_to_d;
         }
 
-        public override String ToString()
+        public override string ToString()
         {
-            return this.getHour().ToString("00") + ":" + this.getMinute().ToString("00") + " " + this.getToD();
+            return this.GetHour().ToString("00") + ":" + this.GetMinute().ToString("00") + " " + this.GetToD();
         }
 
-        private int hour;
-        private int minute;
-        private String ToD;
+        private int m_hour;
+        private int m_minute;
+        private readonly string m_to_d;
     }
 }

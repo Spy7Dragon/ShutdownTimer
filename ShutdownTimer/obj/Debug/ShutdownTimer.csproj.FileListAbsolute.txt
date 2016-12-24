@@ -20,3 +20,16 @@ C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Deb
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.exe
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.pdb
 C:\Users\Branden\Documents\Personal Projects\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.csprojResolveAssemblyReference.cache
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.exe.config
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.exe
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.pdb
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.exe.manifest
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.application
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.exe
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\bin\Debug\ShutdownTimer.pdb
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.csprojResolveAssemblyReference.cache
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.Form1.resources
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.Properties.Resources.resources
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.csproj.GenerateResource.Cache
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.exe.manifest
+C:\Users\bh7y\OneDrive\Documents\GitHub\ShutdownTimer\ShutdownTimer\obj\Debug\ShutdownTimer.application
